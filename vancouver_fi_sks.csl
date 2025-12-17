@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0"
+       class="in-text" default-locale="en-US">
+  <info>
+    <title>Vancouver (FI - ym.)</title>
+    <id>http://www.zotero.org/styles/vancouver-fi-ym</id>
+    <link href="http://www.zotero.org/styles/vancouver" rel="template"/>
+    <author>
+      <name>Custom</name>
+    </author>
+    <category citation-format="numeric"/>
+    <category field="medicine"/>
+    <summary>Vancouver numeric with 3 authors then 'ym.'</summary>
+    <updated>2025-12-17T00:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/"/>
+  </info>
+
+  <!-- Finnish locale override for "et al." -->
+  <locale xml:lang="fi">
+    <terms>
+      <term name="et-al">ym.</term>
+    </terms>
+  </locale>
+
+  <macro name="author">
+    <names variable="author" delimiter=", " et-al-min="4" et-al-use-first="3">
+      <name name-as-sort-order="all" sort-separator=" " initialize-with="" delimiter=", "/>
+      <et-al>ym.</et-al>
+    </names>
+  </macro>
+
+  <macro name="editor">
+    <names variable="editor" delimiter=", " et-al-min="4" et-al-use-first="3">
+      <name name-as-sort-order="all" sort-separator=" " initialize-with="" delimiter=", "/>
+      <et-al>ym.</et-al>
+      <label form="short" prefix=", "/>
+    </names>
+  </macro>
+
+  <macro name="title">
+    <text variable="title"/>
+  </macro>
+
+  <macro name="container-title">
+    <text variable="container-title" form="short" strip-periods="true"/>
+  </macro>
+
+  <macro name="issued-year">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+
+  <macro name="volume-issue">
+    <group>
+      <text variable="volume"/>
+      <group prefix="(" suffix=")">
+        <text variable="issue"/>
+      </group>
+    </group>
+  </macro>
+
+  <macro name="pages">
+    <text variable="page"/>
+  </macro>
+
+  <macro name="doi">
+    <text variable="DOI" prefix=" doi:"/>
+  </macro>
+
+  <!-- In-text citation: numeric -->
+  <citation collapse="citation-number" after-collapse-delimiter="," et-al-min="4" et-al-use-first="3">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout prefix="(" suffix=")" delimiter=",">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+
+  <!-- Bibliography -->
+  <bibliography et-al-min="4" et-al-use-first="3" entry-spacing="0" line-spacing="1">
+    <layout>
+      <text variable="citation-number" suffix=". "/>
+
+      <!-- Authors (or editors if no authors) -->
+      <choose>
+        <if variable="author">
+          <text macro="author" suffix=". "/>
+        </if>
+        <else-if variable="editor">
+          <text macro="editor" suffix=". "/>
+        </else-if>
+      </choose>
+
+      <!-- Title -->
+      <text macro="title" suffix=". "/>
+
+      <!-- Journal / container -->
+      <choose>
+        <if type="article-journal">
+          <text macro="container-title" suffix=". "/>
+          <text macro="issued-year" suffix=";"/>
+          <text macro="volume-issue" suffix=":"/>
+          <text macro="pages" suffix="."/>
+          <text macro="doi"/>
+        </if>
+
+        <else-if type="book">
+          <text variable="publisher-place" suffix=": "/>
+          <text variable="publisher" suffix="; "/>
+          <text macro="issued-year" suffix="."/>
+        </else-if>
+
+        <else-if type="chapter">
+          <text value="In: " />
+          <text macro="editor" suffix=". "/>
+          <text variable="container-title" suffix=". "/>
+          <text variable="publisher-place" suffix=": "/>
+          <text variable="publisher" suffix="; "/>
+          <text macro="issued-year" suffix=". "/>
+          <text variable="page" prefix="p. " suffix="."/>
+        </else-if>
+
+        <else>
+          <text macro="container-title" suffix=". "/>
+          <text macro="issued-year" suffix="."/>
+        </else>
+      </choose>
+    </layout>
+  </bibliography>
+</style>
